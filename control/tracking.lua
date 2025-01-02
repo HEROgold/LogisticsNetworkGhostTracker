@@ -1,3 +1,7 @@
+require("__heroic_library__.vars.words")
+require("__heroic_library__.vars.strings")
+require("__heroic_library__.entities")
+require("__heroic_library__.table")
 
 
 ---@param entity LuaEntity
@@ -13,15 +17,13 @@ function track_ghost(entity)
     end
 end
 
--- TODO: this is a copy, requires rewrite.
 ---@param entity LuaEntity
 function untrack_ghost(entity)
-    if not entities.is_ghost(entity) then return end
-
+    if entity.name ~= EntityGhost then return end
     for _, cell in pairs(storage.logisticCells) do
         if cell.logisticCell.is_in_construction_range(entity.position) then
-            game.print("Tracking ghost " .. entity.name)
-            storage.trackers[cell] = entity
+            storage.trackers[cell] = nil
+            game.print("no-Tracking ghost " .. entity.name)
             return
         end
     end
@@ -29,7 +31,7 @@ end
 
 ---@param entity LuaEntity
 function track_ghost_tracker(entity)
-    if entity.type ~= "roboport" then
+    if entity.type ~= Roboport then
         return
     end
 
@@ -43,17 +45,13 @@ function track_ghost_tracker(entity)
 end
 
 
--- TODO: this is a copy, requires rewrite.
 ---@param entity LuaEntity
 function untrack_ghost_tracker(entity)
-    if entity.type ~= "roboport" then
-        return
-    end
-
+    if entity.type ~= Roboport then return end
     for _, cell in pairs(storage.logisticCells) do
         if cell.logisticCell.is_in_logistic_range(entity.position) then
-            game.print("Tracking ghost tracker " .. entity.name)
-            storage.trackers[cell] = entity
+            game.print("no-Tracking ghost tracker " .. entity.name)
+            storage.trackers[cell] = nil
             return
         end
     end
@@ -86,7 +84,6 @@ function track_logistic_cell(entity)
     game.print("Logistics cell " .. entity.name)
 end
 
--- TODO: this is a copy, requires rewrite.
 ---@param entity LuaEntity
 function untrack_logistic_cell(entity)
     local logisticCell = entity.logistic_cell
@@ -94,24 +91,9 @@ function untrack_logistic_cell(entity)
     local network = logisticCell.logistic_network
     if network == nil then return end
 
-    local radius = logisticCell.construction_radius
-    local entities = entity.surface.find_entities_filtered{
-        area = {
-            {entity.position.x - radius, entity.position.y - radius},
-            {entity.position.x + radius, entity.position.y + radius}
-        },
-        type = "entity-ghost"
-    }
-
-    if storage.logisticNetworks[network] == nil then
-        storage.logisticNetworks[network] = {}
-    end
-    table.insert(storage.logisticNetworks[network], logisticCell)
-    storage.logisticCells[entity] = {
-        logisticCell = logisticCell,
-        entities = entities
-    }
-    game.print("Logistics cell " .. entity.name)
+    table.remove_key(storage.logisticNetworks[network], logisticCell)
+    game.print("no-Logistics cell " .. entity.name)
+    storage.logisticCells[entity] = nil
 end
 
 
