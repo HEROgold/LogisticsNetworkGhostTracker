@@ -21,7 +21,6 @@ function track_ghost(entity)
         if cell.logisticCell.is_in_construction_range(entity.position) then
             game.print("Tracking ghost " .. entity.name)
             storage.trackers[cell] = entity
-            return
         end
         ::continue::
     end
@@ -35,7 +34,6 @@ function untrack_ghost(entity)
         if cell.logisticCell.is_in_construction_range(entity.position) then
             storage.trackers[cell] = nil
             game.print("no-Tracking ghost " .. entity.name)
-            return
         end
         ::continue::
     end
@@ -50,7 +48,6 @@ function track_ghost_tracker(entity)
         if cell.logisticCell.is_in_logistic_range(entity.position) then
             game.print("Tracking ghost tracker " .. entity.name)
             storage.trackers[cell] = entity
-            return
         end
         ::continue::
     end
@@ -65,7 +62,6 @@ function untrack_ghost_tracker(entity)
         if cell.logisticCell.is_in_logistic_range(entity.position) then
             game.print("no-Tracking ghost tracker " .. entity.name)
             storage.trackers[cell] = nil
-            return
         end
         ::continue::
     end
@@ -110,7 +106,6 @@ function untrack_logistic_cell(entity)
             table.remove_key(network, logisticCell)
             game.print("no-Logistics cell " .. entity.name)
             storage.logisticCells[entity] = nil
-            return
         end
     end
 end

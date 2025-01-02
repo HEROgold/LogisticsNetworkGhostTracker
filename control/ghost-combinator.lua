@@ -1,0 +1,2 @@
+-- TODO: block the ghost-combinator from being interactable.
+-- TODO: Set the logistic requests to match the attached roboport tracked ghosts.
