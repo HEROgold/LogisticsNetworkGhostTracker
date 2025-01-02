@@ -4,43 +4,55 @@ require("__heroic_library__.entities")
 require("__heroic_library__.table")
 
 
+function clean_cells()
+    for _, cell in pairs(storage.logisticCells) do
+        if not cell.logisticCell.valid then
+            storage.trackers[cell] = nil
+        end
+    end
+end
+
 ---@param entity LuaEntity
 function track_ghost(entity)
     if not entities.is_ghost(entity) then return end
 
     for _, cell in pairs(storage.logisticCells) do
+        if not cell.logisticCell.valid then goto continue end
         if cell.logisticCell.is_in_construction_range(entity.position) then
             game.print("Tracking ghost " .. entity.name)
             storage.trackers[cell] = entity
             return
         end
+        ::continue::
     end
 end
 
 ---@param entity LuaEntity
 function untrack_ghost(entity)
-    if entity.name ~= EntityGhost then return end
+    if not entities.is_ghost(entity) then return end
     for _, cell in pairs(storage.logisticCells) do
+        if not cell.logisticCell.valid then goto continue end
         if cell.logisticCell.is_in_construction_range(entity.position) then
             storage.trackers[cell] = nil
             game.print("no-Tracking ghost " .. entity.name)
             return
         end
+        ::continue::
     end
 end
 
 ---@param entity LuaEntity
 function track_ghost_tracker(entity)
-    if entity.type ~= Roboport then
-        return
-    end
+    if entity.type ~= Roboport then return end
 
     for _, cell in pairs(storage.logisticCells) do
+        if not cell.logisticCell.valid then goto continue end
         if cell.logisticCell.is_in_logistic_range(entity.position) then
             game.print("Tracking ghost tracker " .. entity.name)
             storage.trackers[cell] = entity
             return
         end
+        ::continue::
     end
 end
 
@@ -49,11 +61,13 @@ end
 function untrack_ghost_tracker(entity)
     if entity.type ~= Roboport then return end
     for _, cell in pairs(storage.logisticCells) do
+        if not cell.logisticCell.valid then goto continue end
         if cell.logisticCell.is_in_logistic_range(entity.position) then
             game.print("no-Tracking ghost tracker " .. entity.name)
             storage.trackers[cell] = nil
             return
         end
+        ::continue::
     end
 end
 
@@ -91,9 +105,14 @@ function untrack_logistic_cell(entity)
     local network = logisticCell.logistic_network
     if network == nil then return end
 
-    table.remove_key(storage.logisticNetworks[network], logisticCell)
-    game.print("no-Logistics cell " .. entity.name)
-    storage.logisticCells[entity] = nil
+    for _, network in pairs(storage.logisticNetworks) do
+        if table.contains(network, logisticCell) then
+            table.remove_key(network, logisticCell)
+            game.print("no-Logistics cell " .. entity.name)
+            storage.logisticCells[entity] = nil
+            return
+        end
+    end
 end
 
 
