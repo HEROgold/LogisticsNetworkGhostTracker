@@ -26,10 +26,11 @@ end
 
 ---@param entity LuaEntity
 local function track_ghost(entity)
-    if !entities.is_ghost(entity) then return end
+    if not entities.is_ghost(entity) then return end
 
     for _, cell in pairs(storage.logisticCells) do
         if cell.logisticCell.is_in_construction_range(entity.position) then
+            game.print("Tracking ghost " .. entity.name)
             storage.trackers[cell] = entity
             return
         end
@@ -44,6 +45,7 @@ local function track_ghost_tracker(entity)
 
     for _, cell in pairs(storage.logisticCells) do
         if cell.logisticCell.is_in_logistic_range(entity.position) then
+            game.print("Tracking ghost tracker " .. entity.name)
             storage.trackers[cell] = entity
             return
         end
@@ -75,6 +77,7 @@ local function track_logistic_cell(entity)
         logisticCell = logisticCell,
         entities = entities
     }
+    game.print("Logistics cell " .. entity.name)
 end
 
 ---@param entity LuaEntity
@@ -157,7 +160,7 @@ script.on_event(
     },
     ---@param event EventData.on_player_mined_entity | EventData.on_robot_mined_entity | EventData.on_entity_died | EventData.script_raised_destroy
     function (event)
-        if !entities.is_valid(event.entity) then return end
+        if not entities.is_valid(event.entity) then return end
         on_destroyed(event.entity)
     end
 )
