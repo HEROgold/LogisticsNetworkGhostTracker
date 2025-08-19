@@ -1,4 +1,4 @@
-require("__heroic_library__.vars.words")
+require("__heroic-library__.vars.words")
 
 script.on_init(function ()
     ---@type table<LuaEntity, {logisticCell: LuaLogisticCell, entities: LuaEntity[]}>

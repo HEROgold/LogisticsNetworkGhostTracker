@@ -1,7 +1,7 @@
-require("__heroic_library__.vars.words")
-require("__heroic_library__.vars.strings")
-require("__heroic_library__.entities")
-require("__heroic_library__.table")
+require("__heroic-library__.vars.words")
+require("__heroic-library__.vars.strings")
+require("__heroic-library__.entities")
+require("__heroic-library__.table")
 
 
 function clean_cells()

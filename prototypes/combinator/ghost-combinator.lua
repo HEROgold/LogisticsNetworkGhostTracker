@@ -1,4 +1,4 @@
-require("__heroic_library__.vars.strings")
+require("__heroic-library__.vars.strings")
 require("vars.strings")
 
 local ghost_combinator_item = table.deepcopy(
