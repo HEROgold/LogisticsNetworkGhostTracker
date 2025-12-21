@@ -1,4 +1,5 @@
 require("control.built")
+require("control.ghost-combinator")
 
 script.on_event(
     {
@@ -11,10 +12,14 @@ script.on_event(
 function (event)
     if event.entity then
         track_entity(event.entity)
+        register_ghost_combinator(event.entity)
+        update_ghost_combinator(event.entity)
         return
     end
     if event.created_entity then
         track_entity(event.created_entity)
+        register_ghost_combinator(event.created_entity)
+        update_ghost_combinator(event.created_entity)
         return
     end
 end)

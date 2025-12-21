@@ -2,6 +2,7 @@ require("__heroic-library__.vars.words")
 require("__heroic-library__.vars.strings")
 require("__heroic-library__.entities")
 require("__heroic-library__.table")
+local Set = require("__heroic-library__.set")
 
 
 function clean_cells()
@@ -75,7 +76,7 @@ function track_logistic_cell(entity)
     if network == nil then return end
 
     local radius = logisticCell.construction_radius
-    local entities = entity.surface.find_entities_filtered{
+    local found_entities = entity.surface.find_entities_filtered{
         area = {
             {entity.position.x - radius, entity.position.y - radius},
             {entity.position.x + radius, entity.position.y + radius}
@@ -89,7 +90,8 @@ function track_logistic_cell(entity)
     table.insert(storage.logisticNetworks[network], logisticCell)
     storage.logisticCells[entity] = {
         logisticCell = logisticCell,
-        entities = entities
+        -- Use a Set to track unique ghost entities within this cell's construction radius
+        entities = Set.new(found_entities)
     }
     game.print("Logistics cell " .. entity.name)
 end
@@ -113,21 +115,27 @@ end
 
 ---@param network LuaLogisticNetwork
 function get_network_tracked_entities(network)
-    local entities = {}
+    if storage.logisticNetworks[network] == nil then return {} end
+    local results = Set.new()
     for _, logisticCell in pairs(storage.logisticNetworks[network]) do
-        for _, entity in pairs(storage.logisticCells[logisticCell].entities) do
-            table.insert(entities, entity)
+        local cellData = storage.logisticCells[logisticCell]
+        if cellData and cellData.entities then
+            for _, e in pairs(Set.values(cellData.entities)) do
+                results:add(e)
+            end
         end
     end
-    return table.unique(entities)
+    return results:values()
 end
 
 function get_all_tracked_entities()
-    local entities = {}
+    local results = Set.new()
     for _, data in pairs(storage.logisticCells) do
-        for _, entity in pairs(data.entities) do
-            table.insert(entities, entity)
+        if data.entities then
+            for _, e in pairs(Set.new(data.entities)) do
+                results:add(e)
+            end
         end
     end
-    return table.unique(entities)
+    return results:values()
 end

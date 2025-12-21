@@ -1,4 +1,5 @@
 require("control.destroyed")
+require("control.ghost-combinator")
 
 script.on_event(
     {
@@ -10,6 +11,7 @@ script.on_event(
     ---@param event EventData.on_player_mined_entity | EventData.on_robot_mined_entity | EventData.on_entity_died | EventData.script_raised_destroy
     function (event)
         if not entities.is_valid(event.entity) then return end
+        unregister_ghost_combinator(event.entity)
         untrack_entity(event.entity)
     end
 )
