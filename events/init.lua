@@ -1,4 +1,4 @@
-require("__heroic-library__.vars.words")
+
 
 script.on_init(function ()
     ---@type table<LuaEntity, {logisticCell: LuaLogisticCell, entities: LuaEntity[]}>
@@ -11,10 +11,10 @@ script.on_init(function ()
     storage.combinators = {}
 
     for _, surface in pairs(game.surfaces) do
-        for _, entity in pairs(surface.find_entities_filtered{type = Roboport}) do
+        for _, entity in pairs(surface.find_entities_filtered{type = "roboport"}) do
             track_entity(entity)
         end
-        for _, entity in pairs(surface.find_entities_filtered{name = GhostCombinator}) do
+        for _, entity in pairs(surface.find_entities_filtered{name = "ghost-combinator"}) do
             register_ghost_combinator(entity)
         end
     end

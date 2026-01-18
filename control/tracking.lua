@@ -1,5 +1,5 @@
-require("__heroic-library__.vars.words")
-require("__heroic-library__.vars.strings")
+
+
 require("__heroic-library__.entities")
 require("__heroic-library__.table")
 local Set = require("__heroic-library__.set")
@@ -42,7 +42,7 @@ end
 
 ---@param entity LuaEntity
 function track_ghost_tracker(entity)
-    if entity.type ~= Roboport then return end
+    if entity.type ~= "roboport" then return end
 
     for _, cell in pairs(storage.logisticCells) do
         if not cell.logisticCell.valid then goto continue end
@@ -57,7 +57,7 @@ end
 
 ---@param entity LuaEntity
 function untrack_ghost_tracker(entity)
-    if entity.type ~= Roboport then return end
+    if entity.type ~= "roboport" then return end
     for _, cell in pairs(storage.logisticCells) do
         if not cell.logisticCell.valid then goto continue end
         if cell.logisticCell.is_in_logistic_range(entity.position) then

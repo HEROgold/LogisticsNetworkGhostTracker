@@ -1,5 +1,5 @@
-require("__heroic-library__.vars.words")
-require("__heroic-library__.vars.strings")
+
+
 require("__heroic-library__.entities")
 local Set = require("__heroic-library__.set")
 
