@@ -1,6 +1,6 @@
 
 
-require("__heroic-library__.entities")
+local entities = require("__heroic-library__.entities")
 require("__heroic-library__.table")
 local Set = require("__heroic-library__.set")
 

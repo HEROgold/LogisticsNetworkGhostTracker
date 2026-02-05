@@ -1,23 +1,19 @@
+script.on_init(function()
+	---@type table<LuaEntity, {logisticCell: LuaLogisticCell, entities: LuaEntity[]}>
+	storage.logisticCells = {}
+	---@type table<LuaLogisticNetwork, {logisticCells: LuaEntity[]}>
+	storage.logisticNetworks = {}
+	---@type {logisticCells: LuaEntity[]}
+	storage.trackers = {}
+	---@type table<integer, LuaEntity>
+	storage.combinators = {}
 
-
-script.on_init(function ()
-    ---@type table<LuaEntity, {logisticCell: LuaLogisticCell, entities: LuaEntity[]}>
-    storage.logisticCells = {}
-    ---@type table<LuaLogisticNetwork, {logisticCells: LuaEntity[]}>
-    storage.logisticNetworks = {}
-    ---@type {logisticCells: LuaEntity[]}
-    storage.trackers = {}
-    ---@type table<integer, LuaEntity>
-    storage.combinators = {}
-
-    for _, surface in pairs(game.surfaces) do
-        for _, entity in pairs(surface.find_entities_filtered{type = "roboport"}) do
-            track_entity(entity)
-        end
-        for _, entity in pairs(surface.find_entities_filtered{name = "ghost-combinator"}) do
-            register_ghost_combinator(entity)
-        end
-    end
+	for _, surface in pairs(game.surfaces) do
+		for _, entity in pairs(surface.find_entities_filtered({ type = "roboport" })) do
+			track_entity(entity)
+		end
+		for _, entity in pairs(surface.find_entities_filtered({ name = "ghost-combinator" })) do
+			register_ghost_combinator(entity)
+		end
+	end
 end)
-
-
