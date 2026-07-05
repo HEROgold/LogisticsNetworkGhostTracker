@@ -1,11 +1,12 @@
-local entities = require("__heroic-library__.entities")
+local Entity = require("__heroic-library__.entity")
 local Set = require("__heroic-library__.set")
 
 -- storage.combinators: table<integer, LuaEntity> indexed by unit_number
 -- Initialized in events.init
 
 local function clear_combinator_signals(entity)
-	if not entities.is_valid(entity) then
+	local e = Entity.new(entity)
+	if not e or not e:is_valid() then
 		return
 	end
 	local behavior = entity.get_or_create_control_behavior()
@@ -19,7 +20,8 @@ local function clear_combinator_signals(entity)
 end
 
 local function set_non_interactable(entity)
-	if not entities.is_valid(entity) then
+	local e = Entity.new(entity)
+	if not e or not e:is_valid() then
 		return
 	end
 	-- Prevent players from editing the constant combinator GUI; we'll drive it via script
@@ -37,7 +39,8 @@ end
 local function collect_network_ghost_item_counts(entity)
 	---@type table<string, integer>
 	local counts = {}
-	if not entities.is_valid(entity) then
+	local e = Entity.new(entity)
+	if not e or not e:is_valid() then
 		return counts
 	end
 
@@ -79,7 +82,8 @@ local function collect_network_ghost_item_counts(entity)
 end
 
 local function apply_counts_to_combinator(entity, counts)
-	if not entities.is_valid(entity) then
+	local e = Entity.new(entity)
+	if not e or not e:is_valid() then
 		return
 	end
 	local behavior = entity.get_or_create_control_behavior()
@@ -111,7 +115,8 @@ local function apply_counts_to_combinator(entity, counts)
 end
 
 function register_ghost_combinator(entity)
-	if not entities.is_valid(entity) then
+	local e = Entity.new(entity)
+	if not e or not e:is_valid() then
 		return
 	end
 	if entity.name ~= "ghost-combinator" then
@@ -133,7 +138,8 @@ function unregister_ghost_combinator(entity)
 end
 
 function update_ghost_combinator(entity)
-	if not entities.is_valid(entity) then
+	local e = Entity.new(entity)
+	if not e or not e:is_valid() then
 		return
 	end
 	if entity.name ~= "ghost-combinator" then

@@ -1,0 +1,9 @@
+---------------------------------------------------------------------------------------------------
+Version: 0.1.0
+Date: 2026-07-05
+  Changes:
+    - Migrated to the heroic-library 2.0.0 Entity class (the entities module was removed from the
+      library). Now declares its heroic-library dependency (>= 2.0.0), which was missing.
+  Bugfixes:
+    - Fixed a crash in the entity-removed handler: it referenced an entities helper that was
+      never required in that file.

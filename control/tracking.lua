@@ -1,6 +1,6 @@
 
 
-local entities = require("__heroic-library__.entities")
+local Entity = require("__heroic-library__.entity")
 require("__heroic-library__.table")
 local Set = require("__heroic-library__.set")
 
@@ -15,7 +15,7 @@ end
 
 ---@param entity LuaEntity
 function track_ghost(entity)
-    if not entities.is_ghost(entity) then return end
+    if not Entity.new(entity):is_ghost() then return end
 
     for _, cell in pairs(storage.logisticCells) do
         if not cell.logisticCell.valid then goto continue end
@@ -29,7 +29,7 @@ end
 
 ---@param entity LuaEntity
 function untrack_ghost(entity)
-    if not entities.is_ghost(entity) then return end
+    if not Entity.new(entity):is_ghost() then return end
     for _, cell in pairs(storage.logisticCells) do
         if not cell.logisticCell.valid then goto continue end
         if cell.logisticCell.is_in_construction_range(entity.position) then
